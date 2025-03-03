@@ -1,3 +1,5 @@
+### Inspiration comes from https://stackoverflow.com/questions/53704524/show-gif-and-wait-for-key-press
+
 import matplotlib.pyplot as plt
 import glob, os, sys
 import cv2
