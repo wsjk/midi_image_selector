@@ -47,6 +47,7 @@ def next_image(evt=None):
     except IndexError:
         print("Sorry no image in index: ", curr)
 
+## https://stackoverflow.com/questions/59432324/how-to-mask-image-with-binary-mask
 def get_mask(image):
     """
     Create a mask to reveal only section of image
