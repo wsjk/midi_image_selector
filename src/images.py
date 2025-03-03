@@ -1,3 +1,5 @@
+import sys
+sys.path.append("../src/")
 from image_tools import *
 
 class Images():
@@ -41,6 +43,8 @@ class Images():
         """
         Orchestrating function to run
         """
+        # self.display()
+
         image = self.loaded_images[self.curr]
 
         if self.mode == "masked":
