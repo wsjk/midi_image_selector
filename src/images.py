@@ -1,17 +1,18 @@
 import sys
-sys.path.append("../src/")
-from image_tools import *
+
+from .image_tools import *
 
 class Images():
-    def __init__(self, path=".", mode="scroll"):
+    def __init__(self, path=".", mode="scroll", auto_start=True):
         self.path = path
         self.loaded_images = get_images(self.path)
         self.curr = 0
-        self.fig, self.ax = plt.subplots()
         self.mode = mode
-        self.display()
-        plt.get_current_fig_manager().full_screen_toggle()
-        plt.show()
+        if auto_start:
+            self.fig, self.ax = plt.subplots()
+            self.display()
+            plt.get_current_fig_manager().full_screen_toggle()
+            plt.show()
 
     def next_image(self, evt=None):
         """
