@@ -1,11 +1,21 @@
-import sys
+import matplotlib
+matplotlib.use('TkAgg')  # Or another suitable backend like 'QtAgg'
+import matplotlib.pyplot as plt
+import os, sys
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
-from .image_tools import *
+import image_tools
 
 class Images():
-    def __init__(self, path=".", mode="scroll", auto_start=True):
+    def __init__(
+        self, 
+        path=".", 
+        mode="scroll", 
+        auto_start=True,
+        midi=False
+    ):
         self.path = path
-        self.loaded_images = get_images(self.path)
+        self.loaded_images = image_tools.get_images(self.path)
         self.curr = 0
         self.mode = mode
         if auto_start:
@@ -44,7 +54,6 @@ class Images():
         """
         Orchestrating function to run
         """
-        # self.display()
 
         image = self.loaded_images[self.curr]
 
