@@ -5,7 +5,7 @@ from ..src.images import *
 
 @pytest.fixture(scope="function")
 def shared_instance():
-    instance = Images("./sample_images","scroll")
+    instance = Images("./sample_images","scroll", False)
     yield instance
 
 def test_image_load(shared_instance):
