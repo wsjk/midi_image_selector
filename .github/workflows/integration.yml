@@ -22,14 +22,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi 
       - name: Install dependencies
         run: pip install pytest pytest-md pytest-emoji
-      - name: Lint with Ruff  
+      - name: Run tests
         run: |  
-          pip install ruff  
-          ruff --format=github --target-version=py310 .  
-        continue-on-error: true  
-      - name: Test with pytest  
-        run: |  
-          coverage run -m pytest  -v -s  
-      - name: Generate Coverage Report  
-        run: |  
-          coverage report -m
+          pytest
