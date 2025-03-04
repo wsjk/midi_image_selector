@@ -1,8 +1,11 @@
-import sys
+import matplotlib
+matplotlib.use('TkAgg')  # Or another suitable backend like 'QtAgg'
+import os, sys
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 import mido
 
-from midi_image_selector.src.image_tools import *
+from image_tools import *
 
 def get_midi_port():
     # Get a list of available input port names
@@ -11,6 +14,7 @@ def get_midi_port():
     # Get first port that is not a Through type
     for p in input_ports:
         if "Midi Through" not in p:
+            print(p)
             port = p
             return p
 
@@ -31,8 +35,10 @@ class MIDI_Images():
         if auto_start:
             self.fig, self.ax = plt.subplots()
             self.display()
-            plt.get_current_fig_manager().full_screen_toggle()
+            # plt.get_current_fig_manager().full_screen_toggle()
             plt.show()
+            # plt.show(block=False)
+            # plt.pause(0.1)
             
             try:
                 p = get_midi_port()
@@ -43,7 +49,7 @@ class MIDI_Images():
                     while True:
                         for msg in inport.iter_pending():
                             print(msg)
-                            self.curr = msg.note
+                            self.curr = msg.note - 24
                             self.update_image()
 
             except Exception as e:
@@ -56,7 +62,7 @@ class MIDI_Images():
 
         # do something with current image
         try:
-            n = int(msg.note)
+            n = int(self.curr)
             print("You pressed {}".format(n))
         except ValueError:
             print("Sorry can only use MIDI notes")
@@ -66,7 +72,7 @@ class MIDI_Images():
             self.curr = n
             self.im.set_array(self.loaded_images[self.curr])
             self.display()
-            self.fig.canvas.draw_idle()
+            # self.fig.canvas.draw_idle()
         except IndexError:
             print("Sorry no image in index: ", n)
 

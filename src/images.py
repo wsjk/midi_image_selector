@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('TkAgg')  # Or another suitable backend like 'QtAgg'
 import matplotlib.pyplot as plt
 import os, sys
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
