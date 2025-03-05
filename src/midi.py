@@ -9,6 +9,7 @@ import mido
 from image_tools import *
 from midi_tools import *
 
+min_note = 24
 
 class MIDI_Images():
     def __init__(
@@ -16,7 +17,8 @@ class MIDI_Images():
         path=".", 
         mode="scroll", 
         full_screen=False,
-        auto_start=True
+        auto_start=True,
+        verbose=False
     ):
         self.path = path
         self.loaded_images = get_images(self.path)
@@ -24,6 +26,7 @@ class MIDI_Images():
         self.curr = 0
         self.mode = mode
         self.full_screen = full_screen
+        self.verbose = verbose
         if auto_start:
             self.create_window()
             
@@ -44,9 +47,11 @@ class MIDI_Images():
                 print(f"Listening for MIDI messages on port: {inport.name}")
                 while True:
                     for msg in inport.iter_pending():
-                        print(msg)
-                        self.curr, self.curr_note = midi_to_note(self.num_images, msg.note)
-                        print(self.curr)
+                        if self.verbose:
+                            print("MIDI message: ", msg)
+                        self.curr = midi_note_to_index(self.num_images, min_note, msg.note)
+                        if self.verbose:
+                            print("image index: ", self.curr)
                         self.update_image()
         except Exception as e:
             print(f"Error: {e}")
@@ -82,7 +87,6 @@ class MIDI_Images():
 
             plt.draw()
 
-            # self.fig.canvas.mpl_connect("key_press_event", self.next_image)
 
 
 if __name__ == "__main__":
@@ -92,7 +96,10 @@ if __name__ == "__main__":
 
     parser.add_argument('--imagedir', action="store", dest='imagedir', default='')
     parser.add_argument('--mode', action="store", dest='mode', default='scroll')
+    parser.add_argument('--autostart', action=argparse.BooleanOptionalAction)
+    parser.add_argument('--fullscreen', action=argparse.BooleanOptionalAction)
+    parser.add_argument('--verbose', action=argparse.BooleanOptionalAction)
 
     args = parser.parse_args()
 
-    MIDI_Images(args.imagedir, args.mode)
+    MIDI_Images(args.imagedir, args.mode, args.fullscreen, args.autostart, args.verbose)

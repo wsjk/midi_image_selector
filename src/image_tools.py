@@ -9,13 +9,13 @@ def get_images(path: str) -> list:
     """
     Recursively crawl through dir and load in all images
     """
+    print("Loading images")
     images = []
     image_files = glob.glob(os.path.join(path, '*'))
-    print(image_files)
 
     for i in image_files:
         images.append(cv2.imread(i))
-
+    print(len(image_files), " images loaded")
     return images
 
 ## https://stackoverflow.com/questions/59432324/how-to-mask-image-with-binary-mask
