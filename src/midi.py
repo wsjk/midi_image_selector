@@ -95,5 +95,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # MIDI_Images(args.imagedir, args.mode)
-    MIDI_Images("/home/schoolsofthought/Desktop/rpi/midi_image_selector/sample_images/", "scroll")
+    MIDI_Images(args.imagedir, args.mode)
