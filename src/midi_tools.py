@@ -19,11 +19,8 @@ def get_midi_port():
     if not input_ports or not p: 
         raise Exception("No MIDI input ports found.")
 
-def midi_to_note(max_num, midi_number):
-    """Converts a MIDI note number to its musical note representation."""
-    notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-    octave = midi_number // 12 - 1
-    note_index = midi_number % 12
+def midi_note_to_index(max_num, min_note, midi_number):
+    note_index = (midi_number % max_num) - min_note
     if note_index >= max_num:
         note_index = max_num - note_index
-    return note_index, notes[note_index] + str(octave)
+    return note_index
