@@ -2,7 +2,7 @@
 
 The purpose of this program is to allow a performer to be able to display images via MIDI messages
 
-![screencast](./screencast.png)
+![screencast](./screencast.gif)
 
 ## Core Functionality
 The program must be able to do the following
