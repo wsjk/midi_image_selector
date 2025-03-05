@@ -36,24 +36,23 @@ class MIDI_Images():
             self.fig, self.ax = plt.subplots()
             self.display()
             # plt.get_current_fig_manager().full_screen_toggle()
-            plt.show()
-            # plt.show(block=False)
-            # plt.pause(0.1)
+            self.display()
+            threading.Thread(target=self.poll_midi, daemon=1).start()
+            plt.show()  # use blocking show()
             
-            try:
-                p = get_midi_port()
-
-                with mido.open_input(p) as inport:
-                    inport.poll()
-                    print(f"Listening for MIDI messages on port: {inport.name}")
-                    while True:
-                        for msg in inport.iter_pending():
-                            print(msg)
-                            self.curr = msg.note - 24
-                            self.update_image()
-
-            except Exception as e:
-                print(f"Error: {e}")
+    def poll_midi(self):
+        try:
+            p = get_midi_port()
+            with mido.open_input(p) as inport:
+                inport.poll()
+                print(f"Listening for MIDI messages on port: {inport.name}")
+                while True:
+                    for msg in inport.iter_pending():
+                        print(msg)
+                        self.curr = msg.note - 24
+                        self.update_image()
+        except Exception as e:
+            print(f"Error: {e}")
 
     def update_image(self):
         """
@@ -90,6 +89,8 @@ class MIDI_Images():
                 self.im = self.ax.imshow(result)
             elif self.mode == "scroll":
                 self.im = self.ax.imshow(image)
+
+            plt.draw()
 
             # self.fig.canvas.mpl_connect("key_press_event", self.next_image)
 
